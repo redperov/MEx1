@@ -94,10 +94,23 @@ def evaluate_hypothesis(hypothesis, training_example):
     :param training_example: training example
     :return: 0 or 1
     """
+    current_index = hypothesis[0].get_index()
+    max_length = len(training_example)
+    counter = 0
 
-    for literal, value in zip(hypothesis, training_example):
-        evaluated_value = literal.evaluate(value)
+    for literal in hypothesis:
 
+        # Check if need to take the next value from the training example.
+        if literal.get_index() != current_index:
+            current_index = literal.get_index()
+            counter += 1
+            if counter >= max_length:
+                break
+
+        # Evaluate literal with the training example.
+        evaluated_value = literal.evaluate(training_example[counter])
+
+        # If encountered a zero, no need to continue.
         if evaluated_value == 0:
             return 0
 
@@ -136,6 +149,7 @@ def consistency_algorithm(X, Y):
         y_t_hat = evaluate_hypothesis(h_t, t)
 
         if y_t == 1 and y_t_hat == 0:
+
             for i in range(0, len(t)):
                 x_t_i = t[i]
 

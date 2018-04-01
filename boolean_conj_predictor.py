@@ -14,16 +14,9 @@ class Literal(object):
         :param index: literal index
         :param is_negation: is the literal in a negation form
         """
-        # self._value = value
+
         self._index = index
         self._is_negation = is_negation
-
-    # def get_value(self):
-    #     """
-    #     Value getter.
-    #     :return: int
-    #     """
-    #     return self._value
 
     def get_index(self):
         """
@@ -134,8 +127,12 @@ def remove_literal(hypothesis, index, is_negation):
 
 
 def consistency_algorithm(X, Y):
-    # TODO read the algorithm example and decide if the number of columns is the same, or might change on each iteration
-
+    """
+    Performs the consistency algorithm.
+    :param X: Training examples matrix
+    :param Y: labels vector
+    :return: conjunction prediction
+    """
     # Get number of columns in the examples set.
     try:
         num_of_literals = X.shape[1]
@@ -190,7 +187,7 @@ if __name__ == "__main__":
 
     # Separate the training data to two containers.
     # X - examples
-    # Y - classification
+    # Y - classifications
     X = training_examples[:, : -1]
     Y = training_examples[:, -1]
 

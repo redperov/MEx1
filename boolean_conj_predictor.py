@@ -136,7 +136,7 @@ def consistency_algorithm(X, Y):
     # Get number of columns in the examples set.
     try:
         num_of_literals = X.shape[1]
-    except IndexError:
+    except Exception:
         num_of_literals = len(X)
 
     # Initialize hypothesis.
@@ -188,11 +188,18 @@ if __name__ == "__main__":
     # Separate the training data to two containers.
     # X - examples
     # Y - classifications
-    X = training_examples[:, : -1]
-    Y = training_examples[:, -1]
+    if training_examples.size != 0:
+        try:
+            X = training_examples[:, : -1]
+            Y = training_examples[:, -1]
+        except IndexError:
+            X = [training_examples[: -1]]
+            Y = [training_examples[-1]]
 
-    # Execute the consistency algorithm.
-    result = consistency_algorithm(X, Y)
+        # Execute the consistency algorithm.
+        result = consistency_algorithm(X, Y)
+    else:
+        result = ""
 
     # Write the answer to a file.
     write_answer_to_file(result)
